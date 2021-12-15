@@ -7,7 +7,7 @@ import {
   RoleRevoked,
   UserProxyCreated
 } from "../generated/UserProxyWalletFactory/UserProxyWalletFactory"
-import { ExampleEntity } from "../generated/schema"
+import { ExampleEntity, UserWallet } from "../generated/schema"
 
 export function handleNewImplementation(event: NewImplementation): void {
   // Entities can be loaded from the store using a string ID; this ID
@@ -67,4 +67,16 @@ export function handleRoleGranted(event: RoleGranted): void {}
 
 export function handleRoleRevoked(event: RoleRevoked): void {}
 
-export function handleUserProxyCreated(event: UserProxyCreated): void {}
+export function handleUserProxyCreated(event: UserProxyCreated): void {
+  // Entities can be loaded from the store using a string ID; this ID
+  // needs to be unique across all entities of the same type
+  let entity = UserWallet.load(event.transaction.from.toHex())
+
+  if (!entity) {
+    entity = new UserWallet(event.params.userAddress.toHex())
+    entity.proxyAddress = event.params.proxyAddress;
+    entity.userAddress = event.params.userAddress;
+  }
+
+  entity.save();
+}

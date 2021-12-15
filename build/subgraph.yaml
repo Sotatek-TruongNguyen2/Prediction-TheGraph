@@ -1,6 +1,6 @@
 specVersion: 0.0.2
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: UserProxyWalletFactory
@@ -21,7 +21,7 @@ dataSources:
         - UserProxyCreated
       abis:
         - name: UserProxyWalletFactory
-          file: ./abis/UserProxyWalletFactory.json
+          file: UserProxyWalletFactory/abis/UserProxyWalletFactory.json
       eventHandlers:
         - event: NewImplementation(address,address)
           handler: handleNewImplementation
@@ -33,4 +33,4 @@ dataSources:
           handler: handleRoleRevoked
         - event: UserProxyCreated(address,address,address)
           handler: handleUserProxyCreated
-      file: ./src/mapping.ts
+      file: UserProxyWalletFactory/UserProxyWalletFactory.wasm
